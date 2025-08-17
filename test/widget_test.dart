@@ -11,20 +11,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:andres_shop_website/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Travel app displays correctly', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the main UI elements are present.
+    expect(find.text('Discover'), findsOneWidget);
+    expect(find.text('Amazing places around the world'), findsOneWidget);
+    expect(find.text('All'), findsOneWidget);
+    expect(find.text('Beautiful Place'), findsOneWidget);
+    expect(find.text('Scenic View'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify that category filter works
+    await tester.tap(find.text('Beach'));
     await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    
+    // Verify navigation icons are present
+    expect(find.byIcon(Icons.home), findsOneWidget);
+    expect(find.byIcon(Icons.search), findsOneWidget);
+    expect(find.byIcon(Icons.person), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_border), findsOneWidget);
   });
 }
