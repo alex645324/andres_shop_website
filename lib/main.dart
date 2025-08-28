@@ -1,8 +1,23 @@
-{
-  "mcpServers": {
-    "Framelink Figma MCP": {
-      "command": "npx",
-      "args": ["-y", "figma-developer-mcp", "--figma-api-key=figd_-hwfGaizts86wYE9Qpxjp2C0U0zf7DqPYgvb1hzn", "--stdio"]
-    }
+import 'package:flutter/material.dart';
+import 'screens/tire_service_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Andres Tire Service',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const TireServiceScreen(),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
