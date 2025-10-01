@@ -9,13 +9,39 @@ class TireServiceScreen extends StatefulWidget {
 }
 
 class _TireServiceScreenState extends State<TireServiceScreen> {
+  bool _isSwipedLeft = false;
+  double _dragDistance = 0;
+
+  void _handleDragStart(DragStartDetails details) {
+    _dragDistance = 0;
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    _dragDistance += details.delta.dx;
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (_dragDistance < -100) {
+      setState(() => _isSwipedLeft = true);
+    } else if (_dragDistance > 100) {
+      setState(() => _isSwipedLeft = false);
+    }
+    _dragDistance = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF404040),
-      body: Stack(
-        children: [
+      body: GestureDetector(
+        onTap: () {
+          setState(() => _isSwipedLeft = !_isSwipedLeft);
+        },
+        onHorizontalDragStart: _handleDragStart,
+        onHorizontalDragUpdate: _handleDragUpdate,
+        onHorizontalDragEnd: _handleDragEnd,
+        child: Stack(
+          children: [
           // Background image with 46% opacity
           Positioned.fill(
             child: Opacity(
@@ -29,19 +55,22 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
           // Logo in top left
           Positioned(
             top: 0,
-            left: 0,
+            left: 16,
             child: Image.asset(
               'assets/logo.png',
-              width: 80,
-              height: 60,
+              width: 120,
+              height: 90,
             ),
           ),
           // Truck image in middle
           Positioned(
-            top: MediaQuery.of(context).size.height / 2 - 275,
+            top: MediaQuery.of(context).size.height / 2 - 245,
             left: 0,
             right: 0,
-            child: Center(
+            child: AnimatedSlide(
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeInOut,
+              offset: _isSwipedLeft ? const Offset(-0.6, 0.15) : Offset.zero,
               child: SizedBox(
                 width: 350,
                 height: 350,
@@ -52,9 +81,28 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
               ),
             ),
           ),
+          // Shop image to the right, slightly lower, cut off at right edge
+          Positioned(
+            top: MediaQuery.of(context).size.height / 2 - 245,
+            left: 0,
+            right: 0,
+            child: AnimatedSlide(
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeInOut,
+              offset: _isSwipedLeft ? Offset.zero : const Offset(0.6, 0.15),
+              child: SizedBox(
+                width: 350,
+                height: 350,
+                child: Image.asset(
+                  'assets/Shop.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
           // Swipe text
           Positioned(
-            top: MediaQuery.of(context).size.height / 2 + 150,
+            top: MediaQuery.of(context).size.height / 2 + 115,
             left: 0,
             right: 0,
             child: const Center(
@@ -113,6 +161,7 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
