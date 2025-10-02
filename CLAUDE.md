@@ -46,9 +46,9 @@ flutter build macos          # Build for macOS
 The landing page uses a Stack-based layout with:
 - Background image with 46% opacity overlay on dark gray (#404040) base
 - Logo positioned top-left with 16px left padding (120x90px)
-- Animated truck/shop images that swap positions on swipe or tap
+- Animated truck/shop images that swap positions on swipe or tap, each with info tags
 - "swipe" text prompt below images
-- Bottom glass-morphism styled "Book Today!" button with backdrop blur
+- Bottom glass-morphism styled "Book Today!" / "Go Back" toggle button with backdrop blur
 
 **Interactive Swipe/Tap Animation:**
 - Default state: Truck centered (higher), Shop off to right and lower
@@ -57,6 +57,29 @@ The landing page uses a Stack-based layout with:
 - Swipe detection: 100px threshold in either direction
 - Works with both touch (mobile) and trackpad (Mac) gestures
 - Uses `AnimatedSlide` with diagonal offsets (horizontal ±0.6, vertical 0.15) for smooth 600ms transitions with easeInOut curve
+
+**Booking Button Animation:**
+- "Book Today! 👋" button triggers fly-up animation when clicked
+- Images and "swipe" text fly straight up from their current positions and fade out (600ms)
+- Button text changes to "Go Back" when booking state is active
+- Clicking "Go Back" reverses the animation, bringing everything back down
+- Each image maintains its horizontal position (left/center/right) while flying up
+- State managed by `_isBookingPressed` boolean
+
+**Info Tag Widgets:**
+- `TruckTag`: Overlay on Truck.png (185×100px)
+  - White semi-transparent background (79% opacity)
+  - Star rating tab: "⭐️ 4.8" (top-right, 60×19px)
+  - Heading: "We come to you" (SF Pro, w800, 13px)
+  - Subtext: "Full mobile tier service that comes to your home!!" (SF Pro Rounded, w700, 12px, gray)
+  - Positioned 25px from bottom of truck image
+
+- `ShopTag`: Overlay on Shop.png (185×100px)
+  - Identical structure to TruckTag
+  - Star rating: "⭐️ 4.9"
+  - Heading: "Visit our shop"
+  - Subtext: "Full tire service, Car repair,\nand inspections" (with line break)
+  - Positioned 25px from bottom of shop image
 
 ### Assets
 Assets are stored in `Assets/` directory (case-sensitive) and include:
@@ -80,8 +103,12 @@ The project uses flutter_lints package with default Flutter recommended lints. L
 - Swipe gesture handling via `onHorizontalDragStart`, `onHorizontalDragUpdate`, `onHorizontalDragEnd`
 - Drag distance accumulation using `details.delta.dx` for cross-platform compatibility
 - `AnimatedSlide` widgets for diagonal motion transitions (triangular path effect)
+- `AnimatedOpacity` for fade-in/fade-out effects
+- Complex animation state management with multiple boolean flags (`_isSwipedLeft`, `_isBookingPressed`)
+- Conditional offset calculations preserve horizontal positions during vertical animations
 - Material Design with custom color scheme (blue primary swatch)
 - Responsive positioning using MediaQuery for screen size calculations
+- Reusable StatelessWidget components (TruckTag, ShopTag) with semi-transparent overlays
 
 ## Refactoring Guidelines
 
