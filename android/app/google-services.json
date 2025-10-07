@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "740040895467",
+    "project_id": "tirews-d7184",
+    "storage_bucket": "tirews-d7184.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740040895467:android:1c903d622b32fe7f1b87ae",
+        "android_client_info": {
+          "package_name": "com.example.andres_shop_website"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD46hx-lzJokxikfKJacDx6oWAGHWptsvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
