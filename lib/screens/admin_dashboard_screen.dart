@@ -514,7 +514,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: booking.status == 'pending'
-                    ? [Colors.orange.shade100, Colors.orange.shade50]
+                    ? [Colors.grey.shade300, Colors.grey.shade100]
                     : [Colors.blue.shade100, Colors.blue.shade50],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -527,7 +527,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: booking.status == 'pending' ? Colors.orange : Colors.blue,
+                  backgroundColor: booking.status == 'pending' ? Colors.grey.shade600 : Colors.blue,
                   radius: 24,
                   child: Text(
                     booking.name[0].toUpperCase(),
@@ -565,7 +565,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: booking.status == 'pending' ? Colors.orange : Colors.blue,
+                    color: booking.status == 'pending' ? Colors.grey.shade600 : Colors.blue,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
