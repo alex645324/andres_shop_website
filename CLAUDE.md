@@ -31,10 +31,18 @@ flutter analyze              # Run static analysis/linting
 
 ### Build
 ```bash
-flutter build web            # Build for web
+flutter build web --pwa-strategy=none --base-href /andres_shop_website/  # Build for web (GitHub Pages)
 flutter build apk            # Build Android APK
 flutter build ios            # Build for iOS (requires macOS)
 flutter build macos          # Build for macOS
+```
+
+### Deployment (GitHub Pages)
+```bash
+# See tools/D.md for full deployment instructions
+flutter build web --pwa-strategy=none --base-href /andres_shop_website/
+# Deploy build/web/* contents to deployment branch root
+# GitHub Pages serves from: https://alex645324.github.io/andres_shop_website/
 ```
 
 ## Architecture
@@ -100,15 +108,20 @@ The landing page uses a Stack-based layout with:
   - Positioned 15px from bottom of shop image
 
 ### Assets
-Assets are stored in `Assets/` directory (case-sensitive) and include:
-- `Background.png` - Background texture
+**Web Assets** (stored in `web/` directory for flat deployment structure):
+- `Background.png` - Background texture (925KB)
 - `logo.png` - Company logo (120x90px)
 - `Truck.png` - Hero truck image (400x400px, animated)
 - `Shop.png` - Shop image (400x400px, animated)
 - `Facebook.png` - Social media icon (not currently used)
 - `lock_button.png` - Lock icon (not currently used)
 
-Note: Asset references in code use lowercase `assets/` path (e.g., `assets/Background.png`)
+**Asset Loading**:
+- Images use `Image.network()` for web deployment (not `Image.asset()`)
+- Files in `web/` directory are copied to build output root (`build/web/`)
+- Referenced in code without path prefix (e.g., `'Background.png'` not `'assets/Background.png'`)
+- Additional assets in `assets/` directory are bundled to `build/web/assets/assets/` (nested structure)
+- This flat structure avoids double-nesting issues on GitHub Pages (Linux case-sensitive filesystem)
 
 ## Code Style
 
@@ -131,6 +144,7 @@ The project uses flutter_lints package with default Flutter recommended lints. L
 - Responsive positioning using MediaQuery for screen size calculations
 - Reusable StatelessWidget components (TruckTag, ShopTag) with glass-morphism overlays
 - Custom styled dialogs matching app theme (success/error popups with backdrop blur)
+- **Web Images**: Uses `Image.network()` for loading images from deployment root (not `Image.asset()`)
 
 ### Firebase/Backend
 - **Database**: Cloud Firestore (`cloud_firestore: ^6.0.2`)
