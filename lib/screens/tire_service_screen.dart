@@ -675,10 +675,12 @@ class _BookingFormState extends State<BookingForm> {
                                     borderRadius: BorderRadius.circular(6),
                                     border: Border.all(color: Colors.white.withOpacity(0.4), width: 1),
                                   ),
-                                  child: Icon(
-                                    _phoneCopied ? Icons.check : Icons.copy,
-                                    color: Colors.white,
-                                    size: 16,
+                                  child: Text(
+                                    _phoneCopied ? '✓' : '📋',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -731,10 +733,12 @@ class _BookingFormState extends State<BookingForm> {
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(color: Colors.white.withOpacity(0.4), width: 1),
                                 ),
-                                child: Icon(
-                                  _addressCopied ? Icons.check : Icons.copy,
-                                  color: Colors.white,
-                                  size: 16,
+                                child: Text(
+                                  _addressCopied ? '✓' : '📋',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             ),
