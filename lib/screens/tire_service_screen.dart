@@ -57,8 +57,8 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
           Positioned.fill(
             child: Opacity(
               opacity: 0.46,
-              child: Image.asset(
-                'assets/Background.png',
+              child: Image.network(
+                'Background.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -67,8 +67,8 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
           Positioned(
             top: 0,
             left: 16,
-            child: Image.asset(
-              'assets/logo.png',
+            child: Image.network(
+              'logo.png',
               width: 120,
               height: 90,
             ),
@@ -92,8 +92,8 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Image.asset(
-                        'assets/Truck.png',
+                      child: Image.network(
+                        'Truck.png',
                         width: imageSize,
                         height: imageSize,
                         fit: BoxFit.contain,
@@ -127,8 +127,8 @@ class _TireServiceScreenState extends State<TireServiceScreen> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Image.asset(
-                        'assets/Shop.png',
+                      child: Image.network(
+                        'Shop.png',
                         width: imageSize,
                         height: imageSize,
                         fit: BoxFit.contain,
