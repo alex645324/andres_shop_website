@@ -679,7 +679,7 @@ class _BookingFormState extends State<BookingForm> {
                                     _phoneCopied ? '✓' : '📋',
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 14,
+                                      fontSize: 11,
                                     ),
                                   ),
                                 ),
@@ -737,7 +737,7 @@ class _BookingFormState extends State<BookingForm> {
                                   _addressCopied ? '✓' : '📋',
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 14,
+                                    fontSize: 11,
                                   ),
                                 ),
                               ),
