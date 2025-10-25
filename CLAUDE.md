@@ -31,26 +31,31 @@ flutter analyze              # Run static analysis/linting
 
 ### Build
 ```bash
-flutter build web --pwa-strategy=none --base-href /andres_shop_website/  # Build for web (GitHub Pages)
+flutter build web --pwa-strategy=none --base-href /  # Build for web (custom domain)
 flutter build apk            # Build Android APK
 flutter build ios            # Build for iOS (requires macOS)
 flutter build macos          # Build for macOS
 ```
 
-### Deployment (GitHub Pages)
+### Deployment (Custom Domain - wethebestauto.com)
 ```bash
-# See tools/D.md for full deployment instructions
-flutter build web --pwa-strategy=none --base-href /andres_shop_website/
+# Build for custom domain deployment
+flutter build web --pwa-strategy=none --base-href /
+
 # Deploy build/web/* contents to deployment branch root
-# GitHub Pages serves from: https://alex645324.github.io/andres_shop_website/
+# Custom domain: https://wethebestauto.com
+# GitHub Pages branch: deployment
+# CNAME file contains: wethebestauto.com
 ```
 
 ## Architecture
 
 ### Application Structure
 - **Entry Point**: `lib/main.dart` - Sets up MaterialApp with "Andres Tire Service" theme, initializes Firebase, and configures routing
-  - Uses `onGenerateRoute` for web-compatible routing
+  - Uses `usePathUrlStrategy()` from `flutter_web_plugins/url_strategy.dart` for clean URLs (removes `#` from web URLs)
+  - Uses `onGenerateRoute` for web-compatible routing with `initialRoute: '/'`
   - Routes: `/` (home), `/admin` (admin dashboard)
+  - Clean path-based URLs work on custom domain (e.g., `wethebestauto.com/admin`)
 - **Firebase Configuration**: `lib/firebase_options.dart` - Auto-generated Firebase platform configurations
 - **Models**: `lib/models/` - Data models
   - `booking.dart` - Booking data model with Firestore serialization, includes payment tracking
@@ -66,6 +71,20 @@ flutter build web --pwa-strategy=none --base-href /andres_shop_website/
 - `ios/Runner/GoogleService-Info.plist` - iOS Firebase configuration
 - `macos/Runner/GoogleService-Info.plist` - macOS Firebase configuration
 - Firebase project ID: `tirews-d7184`
+
+### Web Routing & SPA Configuration
+- **Clean URL Strategy**: Uses `usePathUrlStrategy()` to enable path-based routing without hash fragments
+  - URLs like `wethebestauto.com/admin` work instead of `wethebestauto.com/#/admin`
+- **GitHub Pages SPA Support**:
+  - `web/404.html` - Redirect handler for GitHub Pages single-page app routing
+    - Catches direct URL access (e.g., when user navigates to `/admin` directly)
+    - Encodes path and redirects to `index.html` with query parameters
+  - `web/index.html` - Contains decode script that restores original URL path
+    - Decodes query parameters from 404.html redirect
+    - Uses `window.history.replaceState()` to restore clean URL
+    - Flutter router then matches the path and renders appropriate screen
+  - This pattern enables direct URL access and browser refresh to work correctly
+- **CNAME File**: Deployment branch contains `CNAME` file with custom domain: `wethebestauto.com`
 
 ### Main Screen (`TireServiceScreen`)
 The landing page uses a Stack-based layout with:
@@ -115,6 +134,8 @@ The landing page uses a Stack-based layout with:
 - `Shop.png` - Shop image (400x400px, animated)
 - `Facebook.png` - Social media icon (not currently used)
 - `lock_button.png` - Lock icon (not currently used)
+- `404.html` - GitHub Pages SPA routing redirect handler
+- `index.html` - Main HTML with SPA URL decode script
 
 **Asset Loading**:
 - Images use `Image.network()` for web deployment (not `Image.asset()`)
@@ -195,7 +216,7 @@ The project uses flutter_lints package with default Flutter recommended lints. L
   - Uses Flutter's `Clipboard.setData()` API
 
 ### Admin Dashboard (`AdminDashboardScreen`)
-- **Access**: Navigate to `http://localhost:8080/#/admin` in browser
+- **Access**: Navigate to `/admin` path (e.g., `http://localhost:8080/admin` or `https://wethebestauto.com/admin`)
 - **Real-time Updates**: Uses `streamAllBookings()` for live data from Firestore
 - **Two Main Sections**:
   1. **Upcoming Bookings**: Shows pending/confirmed bookings
