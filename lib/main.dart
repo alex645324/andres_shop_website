@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const TireServiceScreen(),
+      initialRoute: '/',
       onGenerateRoute: (settings) {
         if (settings.name == '/admin') {
           return MaterialPageRoute(
